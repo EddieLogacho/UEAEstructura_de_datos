@@ -7,20 +7,20 @@ class Program
     {
         Random random = new Random();
 
-        // 1. Crear conjunto ficticio de 500 ciudadanos
+        // Conjunto ficticio de 500 ciudadanos
         HashSet<string> conjuntoU = new HashSet<string>();
         for (int i = 1; i <= 500; i++)
         {
             conjuntoU.Add("Ciudadano " + i);
         }
 
-        // 2. Crear conjunto ficticio de 75 vacunados con Pfizer
+        // Crear conjunto ficticio de 75 vacunados con Pfizer
         HashSet<string> conjuntoA = GenerarVacunados("Ciudadano ", 75, 500, random);
 
-        // 3. Crear conjunto ficticio de 75 vacunados con AstraZeneca
+        // Crear conjunto ficticio de 75 vacunados con AstraZeneca
         HashSet<string> conjuntoB = GenerarVacunados("Ciudadano ", 75, 500, random);
 
-        // 4. Operaciones de conjuntos
+        // Operaciones de conjuntos
 
         // No vacunados
         HashSet<string> noVacunados = new HashSet<string>(conjuntoU);
@@ -39,7 +39,7 @@ class Program
         HashSet<string> soloAstra = new HashSet<string>(conjuntoB);
         soloAstra.ExceptWith(conjuntoA);
 
-        // 5. Resultados
+        //el Resultados
         Console.WriteLine("==== Campaña de Vacunación COVID-19 ====");
         Console.WriteLine("Total ciudadanos: " + conjuntoU.Count);
         Console.WriteLine("Vacunados con Pfizer: " + conjuntoA.Count);
