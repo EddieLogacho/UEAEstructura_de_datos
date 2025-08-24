@@ -14,42 +14,52 @@ class Program
             conjuntoU.Add("Ciudadano " + i);
         }
 
-        // Crear conjunto ficticio de 75 vacunados con Pfizer
-        HashSet<string> conjuntoA = GenerarVacunados("Ciudadano ", 75, 500, random);
+        // Creacion conjunto ficticio de 75 vacunados con Pfizer
+        HashSet<string> conjuntoPfizer = GenerarVacunados("Ciudadano ", 75, 500, random);
 
         // Crear conjunto ficticio de 75 vacunados con AstraZeneca
-        HashSet<string> conjuntoB = GenerarVacunados("Ciudadano ", 75, 500, random);
+        HashSet<string> conjuntoAstra = GenerarVacunados("Ciudadano ", 75, 500, random);
 
-        // Operaciones de conjuntos
+        // ===============================
+        // OPERACIONES DE TEORÍA DE CONJUNTOS
+        // ===============================
 
-        // No vacunados
+        // UNIÓN: ciudadanos que han recibido al menos una dosis
+        HashSet<string> vacunados = new HashSet<string>(conjuntoPfizer);
+        vacunados.UnionWith(conjuntoAstra); // <-- UNIÓN
+
+        // INTERSECCIÓN: ciudadanos que han recibido ambas dosis
+        HashSet<string> ambasDosis = new HashSet<string>(conjuntoPfizer);
+        ambasDosis.IntersectWith(conjuntoAstra); // aplicamos lo que vimos en clase el conjunto de Interseccion
+
+        //  DIFERENCIA: ciudadanos que no han sido vacunados
         HashSet<string> noVacunados = new HashSet<string>(conjuntoU);
-        noVacunados.ExceptWith(conjuntoA);
-        noVacunados.ExceptWith(conjuntoB);
+        noVacunados.ExceptWith(vacunados); // el conjunto de diferencia
 
-        // Ambas dosis
-        HashSet<string> ambasDosis = new HashSet<string>(conjuntoA);
-        ambasDosis.IntersectWith(conjuntoB);
+        //  DIFERENCIA: ciudadanos que solo recibieron Pfizer
+        HashSet<string> soloPfizer = new HashSet<string>(conjuntoPfizer);
+        soloPfizer.ExceptWith(conjuntoAstra); 
 
-        // Solo Pfizer
-        HashSet<string> soloPfizer = new HashSet<string>(conjuntoA);
-        soloPfizer.ExceptWith(conjuntoB);
+        //  DIFERENCIA: ciudadanos que solo recibieron AstraZeneca
+        HashSet<string> soloAstra = new HashSet<string>(conjuntoAstra);
+        soloAstra.ExceptWith(conjuntoPfizer); 
 
-        // Solo AstraZeneca
-        HashSet<string> soloAstra = new HashSet<string>(conjuntoB);
-        soloAstra.ExceptWith(conjuntoA);
-
-        //el Resultados
+        // ===============================
+        // RESULTADOS EN CONSOLA
+        // ===============================
         Console.WriteLine("==== Campaña de Vacunación COVID-19 ====");
         Console.WriteLine("Total ciudadanos: " + conjuntoU.Count);
-        Console.WriteLine("Vacunados con Pfizer: " + conjuntoA.Count);
-        Console.WriteLine("Vacunados con AstraZeneca: " + conjuntoB.Count);
-        Console.WriteLine("No vacunados: " + noVacunados.Count);
-        Console.WriteLine("Ambas dosis: " + ambasDosis.Count);
-        Console.WriteLine("Solo Pfizer: " + soloPfizer.Count);
-        Console.WriteLine("Solo AstraZeneca: " + soloAstra.Count);
+        Console.WriteLine("Vacunados con Pfizer: " + conjuntoPfizer.Count);
+        Console.WriteLine("Vacunados con AstraZeneca: " + conjuntoAstra.Count);
+        Console.WriteLine("Vacunados (al menos una dosis): " + vacunados.Count); // Unión
+        Console.WriteLine("No vacunados: " + noVacunados.Count); // Diferencia
+        Console.WriteLine("Ambas dosis: " + ambasDosis.Count); // Intersección
+        Console.WriteLine("Solo Pfizer: " + soloPfizer.Count); // Diferencia
+        Console.WriteLine("Solo AstraZeneca: " + soloAstra.Count); // Diferencia
 
-        // Mostrar listados
+        // ===============================
+        // LISTADOS INDIVIDUALES
+        // ===============================
         Console.WriteLine("\n-- No vacunados --");
         foreach (var e in noVacunados) Console.WriteLine(e);
 
@@ -63,6 +73,7 @@ class Program
         foreach (var e in soloAstra) Console.WriteLine(e);
     }
 
+    // Método para generar ciudadanos vacunados aleatoriamente
     static HashSet<string> GenerarVacunados(string prefijo, int cantidad, int maxCiudadanos, Random random)
     {
         HashSet<string> vacunados = new HashSet<string>();
@@ -74,4 +85,3 @@ class Program
         return vacunados;
     }
 }
-
